@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { useColorMode } from '@vueuse/core'
-import HelloWorld from './components/HelloWorld.vue'
+import { useColorMode, useDraggable } from '@vueuse/core'
+import { UsaDraggle } from '@vueuse/core'
+// import HelloWorld from './components/HelloWorld.vue'
 import IconSun from '../src/components/IconSun.vue'
 import IconMoon from '../src/components/IconMoon.vue'
 import IconCoffe from '../src/components/IconCoffe.vue'
+import { ref } from 'vue'
 
 const colorMode = useColorMode(
   {
@@ -26,30 +28,71 @@ const switchTheme = () => {
     colorMode.value = 'dark'
   }
   console.log({
-     "color":colorMode.value
+    "color": colorMode.value
   })
 }
+
+const elnoImportantTItle = ref(null)
+const elimportantTitle = ref(null)
+const elnotUrgentTItle = ref(null)
+const elurgentFile = ref(null)
+
+const { style: style1 } = useDraggable(elnoImportantTItle, {
+  initialValue: { x: 40, y: 40, }
+});
+
+const { style: style2 } = useDraggable(elimportantTitle, {
+  initialValue: { x: 60, y: 60, }
+});
+
+const { style: style3 } = useDraggable(elnotUrgentTItle, {
+  initialValue: { x: 80, y: 80, }
+});
+
+const { style: style4 } = useDraggable(elurgentFile, {
+  initialValue: { x: 100, y: 100, }
+});
+
 
 </script>
 
 <template>
-  <header style="height: 50px; align-items: center; display: flex; justify-content: space-between;">
+  <header style="
+    height: 50px;
+     align-items: center; 
+     display: flex; 
+     justify-content: space-between; 
+     border-bottom: 1px solid #ccc;
+     padding-bottom: 10px;
+     ">
     <h1 style="font-size:1.2rem;">Build with Endros</h1>
     <button style="display: flex; align-items: center;" @click="switchTheme" class="btn btn- btn-block">
       <IconSun v-if="colorMode === 'light'" />
       <IconMoon v-else-if="colorMode === 'dark'" />
-      <IconCoffe v-else/>
+      <IconCoffe v-else />
     </button>
   </header>
-  <h1>{{ colorMode }}</h1>
+  <main>
+    <h2>Whiteboard Cansvas</h2>
+    <div class="whiteboard">
+      <div class="whiteboard-section">
+        <h3 ref="elimportantTitle" :style="style1" style="position: fixed;">Important</h3>
+      </div>
+      <div class="whiteboard-section">
+        <UseDraggable :initialValue="{ x: 10, y: 10 }">
+          <h3 ref="elNotImportantTitle" :style="style2" style="position: fixed;">Not Impartant</h3>
+        </UseDraggable>
 
-  <a href="https://vitejs.dev" target="_blank">
-    <img src="/vite.svg" class="logo" alt="Vite logo" />
-  </a>
-  <a href="https://vuejs.org/" target="_blank">
-    <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-  </a>
-  <HelloWorld msg="Vite + Vue" />
+      </div>
+      <div class="whiteboard-section">
+        <h3 ref="elurgentFile" :style="style3" style="position: fixed;">Urgent</h3>
+      </div>
+      <div class="whiteboard-section">
+        <h3 ref="elnotUrgentTItle" :style="style4" style="position: fixed;">Not Urgent</h3>
+      </div>
+    </div>
+  </main>
+  <!-- <HelloWorld msg="Vite + Vue" /> -->
 </template>
 
 <style>
@@ -67,6 +110,25 @@ const switchTheme = () => {
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 } */
+
+.cafe {
+  filter: sepia(0.9) hue-rotate(315deg) brightness(0.9);
+}
+
+.whiteboard {
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.whiteboard-section {
+
+  border: 1px solid #ccc;
+  position: relative;
+  min-height: 200px;
+}
+
 
 .dark {
   background-color: #222;
